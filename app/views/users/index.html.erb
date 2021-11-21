@@ -14,8 +14,14 @@
             <h5 class="card-title"><%= link_to gravatar_for(user, size: 150), user_path(user), class: "text-info" %></h5>
             <p class="card-text text-white"><%= pluralize(user.articles.count, "article") %></p>
             <%= link_to "View Profile", user_path(user), class: "btn btn-outline-light" %>
-            <% if logged_in? && user == current_user %>
-              <%= link_to "Edit Profile", edit_user_path(user), class: "btn btn-outline-light" %>
+            <% if logged_in? %>
+              <% if user == current_user %>
+                <%= link_to "Edit Profile", edit_user_path(user), class: "btn btn-outline-light" %>
+              <% end %>
+              <% if current_user.admin? %>
+                <%= link_to "Delete user", user_path(user), class: "btn btn-outline-danger", method: :delete, 
+                data: {confirm: "Are you sure ?"} %>
+              <% end %>
             <% end %>
           </div>
           <div class="card-footer text-white">
